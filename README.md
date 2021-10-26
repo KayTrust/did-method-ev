@@ -1,4 +1,4 @@
-# GlobalID DID Method
+# EV DID Method
 
 ## Abstract
 
