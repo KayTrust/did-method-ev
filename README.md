@@ -147,3 +147,44 @@ Removing a controller from a DID is performed by calling the `setCap()` method f
 ### Delete (Revoke) 
 
 The delete operation is not currently supported. However, for must use cases it is sufficient to stop using a given DID, authenticating as that DID, or providing private or public information about it.
+
+## Security Considerations
+
+This section discusses identified possible attacks to the DID method described in this document.
+
+### EVM node spoofing
+
+An attacker with access to the verifier's infrastructure could expose a fake node that would provide the verifier with wrong information about a DID.
+
+The attacker could also use that position to perform a denial-of-service attack by silently dropping DID update requests.
+
+To mitigate that risk, the verifier should ensure integrity of the node by following best practices of sensitive infrastructure protection, including control of physical access, control of remote access, routine integrity checks, intrusion detection, etc.
+
+### Unprotected keys
+
+Insufficiently protected private keys with access to a DID could lead to unwanted changes to the target DID. To mitigate that risk, it is recommended to follow best practices to protect private cryptographic material.
+
+### Unsecure ledger
+
+There are a number of risks associated to the use of any fragile Ethereum-like network. Such networks can include:
+- Networks with very few validator nodes
+- Networks with unstable adoption, leading to its members abandoning the network eventually
+- Networks with a consensus mechanism that hasn't yet proven its robustness
+
+In such cases, the validity of transactions is not guaranteed, and denial-of-service attacks can take place, leading to dropped updates, or even the disappearance of the DIDs altogether.
+
+To mitigate that risk, it is recommended to store DIDs on a stable ledger with strong guarantees of continued existence.
+
+### Flawed smart contracts
+
+This method doesn't define a specific logic of the smart contracts to be used. Particularly, the IdentityManager contract's logic can be adapted to specific needs.
+
+Because of that, an attacker who would be able to place or identify voluntary or involuntary flaws in the smart contracts could use them to trick DID verifiers and DID owners into utilizing unsecure DIDs.
+
+To mitigate that risk, it is recommended that the smart contracts be audited against security vulnerabilities before being put to critical use.
+
+## Privacy Considerations
+
+Please keep in mind that this DID method stores keys and DIDs on an immutable ledger. Before creating or updating a DID, the controller should thus ensure that the keys and DIDs are not subject to privacy protection rules such as GDPR.
+
+Beside keys and DIDs, no other information is stored into the ledger, so no further privacy concerns have been identified.
